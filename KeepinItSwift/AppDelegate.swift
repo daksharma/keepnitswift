@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MaterialComponents
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,8 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         window?.backgroundColor = UIColor.white
 
-        let controller = ViewController()
-        window?.rootViewController = controller
+        let layout = MDCCollectionViewFlowLayout()
+        let controller = ViewController(collectionViewLayout: layout)
+        let navController = UINavigationController(rootViewController: controller)
+        window?.rootViewController = navController
         return true
     }
 
