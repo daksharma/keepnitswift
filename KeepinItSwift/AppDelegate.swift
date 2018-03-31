@@ -23,8 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let layout = MDCCollectionViewFlowLayout()
         let controller = ViewController(collectionViewLayout: layout)
-        let navController = UINavigationController(rootViewController: controller)
-        window?.rootViewController = navController
+        window?.rootViewController = controller
         return true
     }
 

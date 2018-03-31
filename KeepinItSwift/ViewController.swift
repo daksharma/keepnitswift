@@ -25,7 +25,8 @@ class ViewController: MDCCollectionViewController {
                                                                          alpha: 1.0)
         appBar.headerViewController.headerView.trackingScrollView = self.collectionView
         appBar.navigationBar.tintColor = UIColor.black
-        title = "Mareial Components"
+        appBar.addSubviewsToParent()
+        title = "Material Components"
     }
 
     override func viewDidLoad() {
