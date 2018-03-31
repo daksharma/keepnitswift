@@ -9,7 +9,7 @@
 import RealmSwift
 
 class NoteCard: Object {
-    @objc dynamic var title: String!
-    @objc dynamic var note: String!
-    @objc dynamic var tags: [String]?
+    @objc dynamic var title: String? = nil
+    @objc dynamic var note: String? = nil
+    @objc dynamic var tags: String? = nil
 }

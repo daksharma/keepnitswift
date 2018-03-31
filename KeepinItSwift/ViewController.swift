@@ -12,7 +12,32 @@ import MaterialComponents
 class ViewController: MDCCollectionViewController {
 
     private let CELL_ID = "MDCCARDSTYLE"
-    let animals = ["Lions", "Tigers", "Bears", "Monkeys"]
+
+    let note1: NoteCard = {
+        let n1 = NoteCard()
+        n1.title = "MD Components"
+        n1.note = "Practicing Material Design Components."
+        n1.tags = "Personal"
+        return n1
+    }()
+
+    let note2: NoteCard = {
+        let n2 = NoteCard()
+        n2.title = "Realm Database"
+        n2.note = "Working together with MD Components and Realm DB."
+        n2.tags = "Project"
+        return n2
+    }()
+
+    let note3: NoteCard = {
+        let n3 = NoteCard()
+        n3.title = "Practice Interview"
+        n3.note = "Go through algorithms and data structures for interview problems."
+        n3.tags = "Work"
+        return n3
+    }()
+
+    var notes = [NoteCard]()
 
     let appBar = MDCAppBar()
 
@@ -31,6 +56,9 @@ class ViewController: MDCCollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        notes.append(note1)
+        notes.append(note2)
+        notes.append(note3)
         styler.cellStyle = .card
         collectionView?.register(MDCCollectionViewTextCell.self, forCellWithReuseIdentifier: CELL_ID)
         setupMDAppBar()
@@ -43,20 +71,20 @@ class ViewController: MDCCollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return animals.count 
+        return notes.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CELL_ID, for: indexPath)
 
         if let textCell = cell as? MDCCollectionViewTextCell {
-            textCell.textLabel?.text = animals[indexPath.row]
+            textCell.textLabel?.text = notes[indexPath.row].title
         }
         return cell
     }
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TODO: ...
+        print("\(notes[indexPath.row].title ?? "Olay")")
     }
 
     // MARK: UIScrollViewDelegate
