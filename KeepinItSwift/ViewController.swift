@@ -39,8 +39,17 @@ class ViewController: MDCCollectionViewController {
 
     var notes = [NoteCard]()
 
-    let appBar = MDCAppBar()
+    func sampleData() {
+        notes.append(note1)
+        notes.append(note2)
+        notes.append(note3)
+    }
 
+    var screenWidth: CGFloat!
+    var screenHeight: CGFloat!
+
+    let appBar = MDCAppBar()
+    let bottomAppBar = MDCBottomAppBarView()
 
     fileprivate func setupMDAppBar() {
         addChildViewController(appBar.headerViewController)
@@ -54,15 +63,72 @@ class ViewController: MDCCollectionViewController {
         title = Bundle.main.displayName
     }
 
+    fileprivate func setupBottomAppBar() {
+        let barSize = appBar.headerViewController.headerView.bounds.height + 20
+        let bottomYAxis = self.view.bounds.height - barSize
+        bottomAppBar.frame = CGRect(x: 0, y: bottomYAxis, width: screenWidth, height: barSize)
+        setupBottomAppBarFloatingButton()
+        setupBottomAppBarMenuButton()
+        setupBottomAppBarSearchButton()
+        self.view.addSubview(bottomAppBar)
+    }
+
+    fileprivate func setupBottomAppBarFloatingButton() {
+        let barAddImage = UIImage(named: "ic_add")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        bottomAppBar.floatingButton.addTarget(self,
+                                              action: #selector(addNoteFBAction(_:)),
+                                              for: .touchUpInside)
+        bottomAppBar.floatingButton.setImage(barAddImage, for: .normal)
+        bottomAppBar.floatingButton.backgroundColor = UIColor.white
+        bottomAppBar.floatingButton.tintColor = UIColor.black
+    }
+
+    fileprivate func setupBottomAppBarMenuButton() {
+        let barMenuImage = UIImage(named: "ic_menu")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        let barMenuItem = UIBarButtonItem(image: barMenuImage,
+                                          style: .plain,
+                                          target: self,
+                                          action: #selector(menuBottomAppBarAction(_:)))
+        bottomAppBar.leadingBarButtonItems = [barMenuItem]
+    }
+
+    fileprivate func setupBottomAppBarSearchButton() {
+        let barSearchImage = UIImage(named: "ic_search")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        let barSearchItem = UIBarButtonItem(image: barSearchImage,
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(searchBottomAppBarAction(_:)))
+
+        barSearchItem.image = barSearchImage
+        bottomAppBar.trailingBarButtonItems = [barSearchItem]
+    }
+
+    // MARK: Button Handlers
+    @objc func addNoteFBAction(_ sender: UIButton!) {
+        print("BOTTOM BAR ADD NOTE")
+    }
+
+    @objc func menuBottomAppBarAction(_ sender: UIButton!) {
+        print("BOTTOM BAR MENU")
+    }
+
+    @objc func searchBottomAppBarAction(_ sender: UIButton!) {
+        print("BOTTOM BAR SEARCH")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        notes.append(note1)
-        notes.append(note2)
-        notes.append(note3)
+        screenWidth = self.view.bounds.width
+        screenHeight = self.view.bounds.height
+        sampleData()
         styler.cellStyle = .card
-        collectionView?.register(MDCCollectionViewTextCell.self, forCellWithReuseIdentifier: CELL_ID)
+        collectionView?.register(MDCCollectionViewTextCell.self,
+                                 forCellWithReuseIdentifier: CELL_ID)
         setupMDAppBar()
+        setupBottomAppBar()
     }
+
+
 
 
     // MARK: UICollectionViewDataSource
