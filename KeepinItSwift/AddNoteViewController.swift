@@ -13,7 +13,7 @@ import MaterialComponents
 class AddNoteViewController: UIViewController, UITextFieldDelegate {
     var titleTextField: MDCTextField = {
         var tf = MDCTextField()
-        tf.placeholder = "Note Title"
+        tf.placeholder = "Title"
         tf.cursorColor = UIColor(hex: amberColor)
         tf.underline?.color = UIColor(hex: amberColor)
         tf.contentHorizontalAlignment = .center
@@ -23,7 +23,7 @@ class AddNoteViewController: UIViewController, UITextFieldDelegate {
 
     let noteTextField: MDCMultilineTextField = {
         let mtf = MDCMultilineTextField()
-        mtf.placeholder = "Note Title"
+        mtf.placeholder = "Notes..."
         mtf.cursorColor = UIColor(hex: amberColor)
         mtf.underline?.color = UIColor(hex: amberColor)
         mtf.textView?.textContainer.maximumNumberOfLines = 3
@@ -32,7 +32,7 @@ class AddNoteViewController: UIViewController, UITextFieldDelegate {
 
     let tagsTextField: MDCTextField = {
         let tf = MDCTextField()
-        tf.placeholder = "single tag: Work, Personal..."
+        tf.placeholder = "Work, Personal..."
         tf.cursorColor = UIColor(hex: amberColor)
         tf.underline?.color = UIColor(hex: amberColor)
         tf.contentHorizontalAlignment = .center
