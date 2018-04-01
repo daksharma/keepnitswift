@@ -45,18 +45,31 @@ class ViewController: MDCCollectionViewController {
         notes.append(note3)
     }
 
+    let noDataLabel: UILabel = {
+        let nd =  UILabel()
+        nd.text = "Looks like you have no notes to keep.\nLet's add them"
+        nd.numberOfLines = 3
+        nd.textColor = UIColor.black
+        nd.backgroundColor = UIColor.clear
+        return nd
+    }()
+
     var screenWidth: CGFloat!
     var screenHeight: CGFloat!
 
     let appBar = MDCAppBar()
     let bottomAppBar = MDCBottomAppBarView()
 
+    fileprivate func emptyDataLabelDisplay() {
+        noDataLabel.frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
+        noDataLabel.textAlignment = .center
+        self.view.addSubview(noDataLabel)
+    }
+
     fileprivate func setupMDAppBar() {
         addChildViewController(appBar.headerViewController)
-        appBar.headerViewController.headerView.backgroundColor = UIColor(red: 1.0,
-                                                                         green: 0.76,
-                                                                         blue: 0.03,
-                                                                         alpha: 1.0)
+        // COLOR: Amber Orange
+        appBar.headerViewController.headerView.backgroundColor = UIColor(hex: "FFC107")
         appBar.headerViewController.headerView.trackingScrollView = self.collectionView
         appBar.navigationBar.tintColor = UIColor.black
         appBar.addSubviewsToParent()
@@ -103,6 +116,9 @@ class ViewController: MDCCollectionViewController {
         bottomAppBar.trailingBarButtonItems = [barSearchItem]
     }
 
+
+
+
     // MARK: Button Handlers
     @objc func addNoteFBAction(_ sender: UIButton!) {
         print("BOTTOM BAR ADD NOTE")
@@ -116,11 +132,19 @@ class ViewController: MDCCollectionViewController {
         print("BOTTOM BAR SEARCH")
     }
 
+
+
+
+
+    // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         screenWidth = self.view.bounds.width
         screenHeight = self.view.bounds.height
         sampleData()
+        if notes.count <= 0 {
+            emptyDataLabelDisplay()
+        }
         styler.cellStyle = .card
         collectionView?.register(MDCCollectionViewTextCell.self,
                                  forCellWithReuseIdentifier: CELL_ID)
@@ -152,6 +176,9 @@ class ViewController: MDCCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("\(notes[indexPath.row].title ?? "Olay")")
     }
+
+
+
 
     // MARK: UIScrollViewDelegate
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
