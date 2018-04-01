@@ -7,43 +7,19 @@
 //
 
 import UIKit
+import RealmSwift
 import MaterialComponents
 
 class ViewController: MDCCollectionViewController {
 
     private let CELL_ID = "MDCCARDSTYLE"
 
-    let note1: NoteCard = {
-        let n1 = NoteCard()
-        n1.title = "MD Components"
-        n1.note = "Practicing Material Design Components."
-        n1.tags = "Personal"
-        return n1
-    }()
-
-    let note2: NoteCard = {
-        let n2 = NoteCard()
-        n2.title = "Realm Database"
-        n2.note = "Working together with MD Components and Realm DB."
-        n2.tags = "Project"
-        return n2
-    }()
-
-    let note3: NoteCard = {
-        let n3 = NoteCard()
-        n3.title = "Practice Interview"
-        n3.note = "Go through algorithms and data structures for interview problems."
-        n3.tags = "Work"
-        return n3
-    }()
-
     var notes = [NoteCard]()
+    lazy var realmNotes: Results<NoteCard> = {
+        self.realm.objects(NoteCard.self)
+    }()
 
-    func sampleData() {
-        notes.append(note1)
-        notes.append(note2)
-        notes.append(note3)
-    }
+    let realm = try! Realm()
 
     let noDataLabel: UILabel = {
         let nd =  UILabel()
@@ -64,6 +40,10 @@ class ViewController: MDCCollectionViewController {
         noDataLabel.frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
         noDataLabel.textAlignment = .center
         self.view.addSubview(noDataLabel)
+    }
+
+    fileprivate func removeEmptyDataLabel() {
+        noDataLabel.removeFromSuperview()
     }
 
     fileprivate func setupMDAppBar() {
@@ -121,7 +101,16 @@ class ViewController: MDCCollectionViewController {
 
     // MARK: Button Handlers
     @objc func addNoteFBAction(_ sender: UIButton!) {
-        print("BOTTOM BAR ADD NOTE")
+        print("BOTTOM BAR ADD NEW NOTE.....")
+        let note = NoteCard()
+        note.title = "T-Rex"
+        note.note = "the city is over run by T-REX."
+        note.tags = "World Problems"
+
+        try! realm.write {
+            realm.add(note)
+        }
+        updateRealmResultObject()
     }
 
     @objc func menuBottomAppBarAction(_ sender: UIButton!) {
@@ -134,17 +123,35 @@ class ViewController: MDCCollectionViewController {
 
 
 
+    // MARK: Realm Database
+    fileprivate func updateRealmResultObject() {
+        realmNotes = realm.objects(NoteCard.self)
+        self.collectionView?.reloadData()
+        checkRealmDatabaseCount()
+    }
+
+    fileprivate func removeAllRealmData() {
+        try! realm.write {
+            realm.deleteAll()
+        }
+    }
 
 
     // MARK: ViewDidLoad
+    fileprivate func checkRealmDatabaseCount() {
+        if realmNotes.count <= 0 {
+            emptyDataLabelDisplay()
+        } else {
+            removeEmptyDataLabel()
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        removeAllRealmData()
         screenWidth = self.view.bounds.width
         screenHeight = self.view.bounds.height
-        sampleData()
-        if notes.count <= 0 {
-            emptyDataLabelDisplay()
-        }
+        checkRealmDatabaseCount()
         styler.cellStyle = .card
         collectionView?.register(MDCCollectionViewTextCell.self,
                                  forCellWithReuseIdentifier: CELL_ID)
@@ -161,20 +168,21 @@ class ViewController: MDCCollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return notes.count
+        return realmNotes.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CELL_ID, for: indexPath)
 
         if let textCell = cell as? MDCCollectionViewTextCell {
-            textCell.textLabel?.text = notes[indexPath.row].title
+            let rn = realmNotes[indexPath.row]
+            textCell.textLabel?.text = rn.title
         }
         return cell
     }
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("\(notes[indexPath.row].title ?? "Olay")")
+        print("\(realmNotes[indexPath.row].title ?? "Olay")")
     }
 
 
