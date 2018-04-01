@@ -137,7 +137,7 @@ class ViewController: MDCCollectionViewController {
     }
 
 
-    // MARK: ViewDidLoad
+
     fileprivate func checkRealmDatabaseCount() {
         if realmNotes.count <= 0 {
             emptyDataLabelDisplay()
@@ -146,18 +146,30 @@ class ViewController: MDCCollectionViewController {
         }
     }
 
+    // MARK: MDC CollectionView Cell Styler
+    fileprivate func setupMDCStyler() {
+        styler.cellStyle = .card
+        styler.cellLayoutType = .grid
+        styler.gridPadding = 8
+        styler.gridColumnCount = 2
+    }
+
+
+    // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         removeAllRealmData()
         screenWidth = self.view.bounds.width
         screenHeight = self.view.bounds.height
+        setupMDCStyler()
         checkRealmDatabaseCount()
-        styler.cellStyle = .card
         collectionView?.register(MDCCollectionViewTextCell.self,
                                  forCellWithReuseIdentifier: CELL_ID)
         setupMDAppBar()
         setupBottomAppBar()
     }
+
+
 
 
 
@@ -177,8 +189,14 @@ class ViewController: MDCCollectionViewController {
         if let textCell = cell as? MDCCollectionViewTextCell {
             let rn = realmNotes[indexPath.row]
             textCell.textLabel?.text = rn.title
+            textCell.detailTextLabel?.text = rn.note
         }
         return cell
+    }
+
+    override func collectionView(_ collectionView: UICollectionView, cellHeightAt indexPath: IndexPath) -> CGFloat {
+        let cellHeight: CGFloat = 75
+        return cellHeight
     }
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
