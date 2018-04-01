@@ -69,7 +69,7 @@ class ViewController: MDCCollectionViewController {
     fileprivate func setupMDAppBar() {
         addChildViewController(appBar.headerViewController)
         // COLOR: Amber Orange
-        appBar.headerViewController.headerView.backgroundColor = UIColor(hex: "FFC107")
+        appBar.headerViewController.headerView.backgroundColor = UIColor(hex: amberColor)
         appBar.headerViewController.headerView.trackingScrollView = self.collectionView
         appBar.navigationBar.tintColor = UIColor.black
         appBar.addSubviewsToParent()
@@ -92,7 +92,7 @@ class ViewController: MDCCollectionViewController {
                                               action: #selector(addNoteFBAction(_:)),
                                               for: .touchUpInside)
         bottomAppBar.floatingButton.setImage(barAddImage, for: .normal)
-        bottomAppBar.floatingButton.backgroundColor = UIColor.white
+        bottomAppBar.floatingButton.backgroundColor = UIColor(hex: darkAmber)
         bottomAppBar.floatingButton.tintColor = UIColor.black
     }
 
