@@ -92,7 +92,7 @@ class ViewController: MDCCollectionViewController {
                                               action: #selector(addNoteFBAction(_:)),
                                               for: .touchUpInside)
         bottomAppBar.floatingButton.setImage(barAddImage, for: .normal)
-        bottomAppBar.floatingButton.backgroundColor = UIColor(hex: darkAmber)
+        bottomAppBar.floatingButton.backgroundColor = UIColor(hex: amberDark)
         bottomAppBar.floatingButton.tintColor = UIColor.black
     }
 
@@ -205,6 +205,11 @@ class ViewController: MDCCollectionViewController {
             let headerView = appBar.headerViewController.headerView
             headerView.trackingScrollWillEndDragging(withVelocity: velocity, targetContentOffset: targetContentOffset)
         }
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        UIApplication.shared.statusBarBGColor?.backgroundColor = UIColor(hex: amberDark)
     }
 
     override func didReceiveMemoryWarning() {

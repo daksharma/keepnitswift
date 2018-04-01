@@ -10,7 +10,8 @@ import UIKit
 import MaterialComponents
 
 let amberColor = "FFC107"
-let darkAmber = "FFA000"
+let amberDark = "FFA000"
+let amberAccent = "FFAB00"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,9 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        if let statusBarColor = UIApplication.shared.value(forKey: "statusBar") as? UIView {
-            statusBarColor.backgroundColor = UIColor(hex: darkAmber)
-        }
+        UIApplication.shared.statusBarBGColor?.backgroundColor = UIColor(hex: amberDark)
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         window?.backgroundColor = UIColor.white
