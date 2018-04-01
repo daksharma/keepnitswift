@@ -96,21 +96,31 @@ class ViewController: MDCCollectionViewController {
         bottomAppBar.trailingBarButtonItems = [barSearchItem]
     }
 
+    // MARK: Card Dialog Add Note
+    let cardDialog = MDCCard()
+    fileprivate func setupCardDialog() {
+        cardDialog.cornerRadius = 8
+        cardDialog.setBorderColor(UIColor(hex: amberDark), for: .normal)
+
+        let titleTF = MDCTextField()
+        titleTF.placeholder = "Note Title"
+        titleTF.backgroundColor = UIColor.clear
+        cardDialog.addSubview(titleTF)
+    }
+
+    fileprivate func setupBottomSheetView() {
+        let vc = AddNoteViewController()
+        let bottomSheet = MDCBottomSheetController(contentViewController: vc)
+        bottomSheet.view.backgroundColor = UIColor.clear
+        present(bottomSheet, animated: true, completion: nil)
+    }
 
 
 
     // MARK: Button Handlers
     @objc func addNoteFBAction(_ sender: UIButton!) {
         print("BOTTOM BAR ADD NEW NOTE.....")
-        let note = NoteCard()
-        note.title = "T-Rex"
-        note.note = "the city is over run by T-REX."
-        note.tags = "World Problems"
-
-        try! realm.write {
-            realm.add(note)
-        }
-        updateRealmResultObject()
+        setupBottomSheetView()
     }
 
     @objc func menuBottomAppBarAction(_ sender: UIButton!) {
@@ -128,6 +138,10 @@ class ViewController: MDCCollectionViewController {
         realmNotes = realm.objects(NoteCard.self)
         self.collectionView?.reloadData()
         checkRealmDatabaseCount()
+    }
+
+    @objc func reloadData(_ notification: Notification) {
+        updateRealmResultObject()
     }
 
     fileprivate func removeAllRealmData() {
@@ -159,6 +173,7 @@ class ViewController: MDCCollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         removeAllRealmData()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadData(_:)), name: .reload, object: nil)
         screenWidth = self.view.bounds.width
         screenHeight = self.view.bounds.height
         setupMDCStyler()
@@ -168,6 +183,8 @@ class ViewController: MDCCollectionViewController {
         setupMDAppBar()
         setupBottomAppBar()
     }
+
+
 
 
 
@@ -243,4 +260,3 @@ class ViewController: MDCCollectionViewController {
         // Dispose of any resources that can be recreated.
     }
 }
-

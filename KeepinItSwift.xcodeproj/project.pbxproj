@@ -15,6 +15,7 @@
 		271925CB206F0F1E00D8C2B4 /* KeepinItSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271925CA206F0F1E00D8C2B4 /* KeepinItSwiftUITests.swift */; };
 		27A121DB207040B700CC8C16 /* NoteCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A121DA207040B700CC8C16 /* NoteCard.swift */; };
 		27A121DE2070450200CC8C16 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A121DD2070450200CC8C16 /* extensions.swift */; };
+		27A121E020718FD700CC8C16 /* AddNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A121DF20718FD700CC8C16 /* AddNoteViewController.swift */; };
 		83CF9D48B6925B7E263F72FF /* Pods_KeepinItSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BAFDE4A41C584E333AB2EC3 /* Pods_KeepinItSwiftTests.framework */; };
 		BB9AB985FC5BC754FBDF64D7 /* Pods_KeepinItSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C3E9C1BAA7829B3B6EB90BC /* Pods_KeepinItSwift.framework */; };
 		DA8952ED2FB4903CE40D62D5 /* Pods_KeepinItSwiftUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E91A57918F7AEFC640258E18 /* Pods_KeepinItSwiftUITests.framework */; };
@@ -53,6 +54,7 @@
 		271925CC206F0F1E00D8C2B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27A121DA207040B700CC8C16 /* NoteCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCard.swift; sourceTree = "<group>"; };
 		27A121DD2070450200CC8C16 /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
+		27A121DF20718FD700CC8C16 /* AddNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteViewController.swift; sourceTree = "<group>"; };
 		32F1C1B44D2C37324B0CDB4F /* Pods-KeepinItSwiftUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeepinItSwiftUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KeepinItSwiftUITests/Pods-KeepinItSwiftUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		874C3FC4ED9B6EFAA177CF91 /* Pods-KeepinItSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeepinItSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KeepinItSwiftTests/Pods-KeepinItSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9BAFDE4A41C584E333AB2EC3 /* Pods_KeepinItSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KeepinItSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +126,7 @@
 				271925B1206F0F1D00D8C2B4 /* Assets.xcassets */,
 				271925B3206F0F1D00D8C2B4 /* LaunchScreen.storyboard */,
 				271925B6206F0F1D00D8C2B4 /* Info.plist */,
+				27A121DF20718FD700CC8C16 /* AddNoteViewController.swift */,
 			);
 			path = KeepinItSwift;
 			sourceTree = "<group>";
@@ -501,6 +504,7 @@
 				271925AD206F0F1D00D8C2B4 /* ViewController.swift in Sources */,
 				271925AB206F0F1D00D8C2B4 /* AppDelegate.swift in Sources */,
 				27A121DB207040B700CC8C16 /* NoteCard.swift in Sources */,
+				27A121E020718FD700CC8C16 /* AddNoteViewController.swift in Sources */,
 				27A121DE2070450200CC8C16 /* extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
