@@ -53,7 +53,7 @@ class AddNoteViewController: UIViewController, UITextFieldDelegate {
 
     let frontSafeZone: CGFloat = 20
     let trailingSafeZone: CGFloat = 40
-    let tfHeight: CGFloat = 70
+    let tfHeight: CGFloat = 50
     let realm = try! Realm()
     
 
@@ -67,7 +67,7 @@ class AddNoteViewController: UIViewController, UITextFieldDelegate {
     }
 
     fileprivate func setupNoteTextView() {
-        noteTextField.frame = CGRect(x: frontSafeZone, y: 100,
+        noteTextField.frame = CGRect(x: frontSafeZone, y: 80,
                                      width: self.view.frame.width - trailingSafeZone,
                                      height: tfHeight)
         noteTextField.textView?.delegate = self as? UITextViewDelegate
@@ -75,24 +75,43 @@ class AddNoteViewController: UIViewController, UITextFieldDelegate {
     }
 
     fileprivate func setupTagsTextView() {
-        tagsTextField.frame = CGRect(x: frontSafeZone, y: 200,
+        tagsTextField.frame = CGRect(x: frontSafeZone, y: 150,
                                      width: self.view.frame.width - trailingSafeZone,
                                      height: tfHeight)
         tagsTextField.delegate = self
         view.addSubview(tagsTextField)
     }
 
+    fileprivate func setupRaisedButton() {
+        raisedButton.frame = CGRect(x: 0, y: self.view.frame.height/2 - tfHeight,
+                                    width: self.view.frame.width,
+                                    height: tfHeight)
+        raisedButton.addTarget(self, action: #selector(addNewNoteToRealm(_:)), for: .touchUpInside)
+        view.addSubview(raisedButton)
+    }
+
     @objc func addNewNoteToRealm(_ button: UIButton!) {
         print("ADD NEW NOTE BUTTON")
-        let note = NoteCard()
-        note.title = titleTextField.text
-        note.note = noteTextField.textView?.text
-        note.tags = tagsTextField.text
-        try! realm.write {
-            realm.add(note)
+        if checkTextFieldLength() {
+            let note = NoteCard()
+            note.title = titleTextField.text
+            note.note = noteTextField.textView?.text
+            note.tags = tagsTextField.text
+            try! realm.write {
+                realm.add(note)
+            }
+            NotificationCenter.default.post(name: .reload, object: nil)
+            self.dismiss(animated: true, completion: nil)
         }
-        NotificationCenter.default.post(name: .reload, object: nil)
-        self.dismiss(animated: true, completion: nil)
+    }
+
+    fileprivate func checkTextFieldLength() -> Bool {
+        if (titleTextField.text?.count)! > 0 &&
+            (noteTextField.textView?.text.count)! > 0 &&
+            (tagsTextField.text?.count)! > 0 {
+            return true
+        }
+        return false
     }
 
 
@@ -102,8 +121,6 @@ class AddNoteViewController: UIViewController, UITextFieldDelegate {
         setupTitleTextView()
         setupNoteTextView()
         setupTagsTextView()
-        raisedButton.frame = CGRect(x: 0, y: 300, width: self.view.frame.width, height: 70)
-        raisedButton.addTarget(self, action: #selector(addNewNoteToRealm(_:)), for: .touchUpInside)
-        view.addSubview(raisedButton)
+        setupRaisedButton()
     }
 }

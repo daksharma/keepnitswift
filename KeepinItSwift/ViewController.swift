@@ -124,6 +124,7 @@ class ViewController: MDCCollectionViewController {
     fileprivate func setupBottomSheetView() {
         let vc = AddNoteViewController()
         let bottomSheet = MDCBottomSheetController(contentViewController: vc)
+        bottomSheet.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         bottomSheet.view.backgroundColor = UIColor.clear
         present(bottomSheet, animated: true, completion: nil)
     }
