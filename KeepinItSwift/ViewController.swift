@@ -23,7 +23,7 @@ class ViewController: MDCCollectionViewController {
 
     let noDataLabel: UILabel = {
         let nd =  UILabel()
-        nd.text = "Looks like you have no notes to keep.\nLet's add them"
+        nd.text = "Looks like you have no notes to keep.\nLet's add them."
         nd.numberOfLines = 3
         nd.textColor = UIColor.black
         nd.backgroundColor = UIColor.clear
@@ -77,12 +77,26 @@ class ViewController: MDCCollectionViewController {
     }
 
     fileprivate func setupBottomAppBarMenuButton() {
-        let barMenuImage = UIImage(named: "ic_menu")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        let barMenuImage = UIImage(named: "ic_delete_forever")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         let barMenuItem = UIBarButtonItem(image: barMenuImage,
                                           style: .plain,
                                           target: self,
-                                          action: #selector(menuBottomAppBarAction(_:)))
+                                          action: #selector(deleteAllRealmUserData(_:)))
         bottomAppBar.leadingBarButtonItems = [barMenuItem]
+    }
+
+    @objc func deleteAllRealmUserData(_ sender: UIButton) {
+        let alertController = MDCAlertController(title: "Remove Notes",
+                                                 message: "Are you sure you want to delete all notes?")
+        let deleteAction = MDCAlertAction(title: "Delete") {
+            (action) in self.removeAllRealmData()
+        }
+        let cancelAction = MDCAlertAction(title: "Cancel") {
+            (action) in self.dismiss(animated: true, completion: nil)
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+        present(alertController, animated: true, completion: nil)
     }
 
     fileprivate func setupBottomAppBarSearchButton() {
@@ -96,25 +110,13 @@ class ViewController: MDCCollectionViewController {
         bottomAppBar.trailingBarButtonItems = [barSearchItem]
     }
 
-    // MARK: Card Dialog Add Note
-    let cardDialog = MDCCard()
-    fileprivate func setupCardDialog() {
-        cardDialog.cornerRadius = 8
-        cardDialog.setBorderColor(UIColor(hex: amberDark), for: .normal)
-
-        let titleTF = MDCTextField()
-        titleTF.placeholder = "Note Title"
-        titleTF.backgroundColor = UIColor.clear
-        cardDialog.addSubview(titleTF)
-    }
-
+    // MARK: Bottom Sheet View
     fileprivate func setupBottomSheetView() {
         let vc = AddNoteViewController()
         let bottomSheet = MDCBottomSheetController(contentViewController: vc)
         bottomSheet.view.backgroundColor = UIColor.clear
         present(bottomSheet, animated: true, completion: nil)
     }
-
 
 
     // MARK: Button Handlers
@@ -148,9 +150,8 @@ class ViewController: MDCCollectionViewController {
         try! realm.write {
             realm.deleteAll()
         }
+        updateRealmResultObject()
     }
-
-
 
     fileprivate func checkRealmDatabaseCount() {
         if realmNotes.count <= 0 {
@@ -172,10 +173,14 @@ class ViewController: MDCCollectionViewController {
     // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        removeAllRealmData()
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadData(_:)), name: .reload, object: nil)
         screenWidth = self.view.bounds.width
         screenHeight = self.view.bounds.height
+
+        removeAllRealmData() //
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadData(_:)),
+                                               name: .reload, object: nil)
+
         setupMDCStyler()
         checkRealmDatabaseCount()
         collectionView?.register(MDCCollectionViewTextCell.self,
@@ -183,10 +188,6 @@ class ViewController: MDCCollectionViewController {
         setupMDAppBar()
         setupBottomAppBar()
     }
-
-
-
-
 
 
 
@@ -218,6 +219,7 @@ class ViewController: MDCCollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("\(realmNotes[indexPath.row].title ?? "Olay")")
+        // TODO: show detail view of notes.
     }
 
 
