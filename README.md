@@ -3,7 +3,7 @@
 Simple iOS Swift version of Google Keep app.
 User can add notes, delete notes.
 
-<b>Features List:
+<b>Feature List:
 
 - [x] Add Note
 - [x] Remove All Notes
