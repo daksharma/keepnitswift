@@ -61,7 +61,7 @@ class ViewController: MDCCollectionViewController {
         let bottomYAxis = self.view.bounds.height - barSize
         bottomAppBar.frame = CGRect(x: 0, y: bottomYAxis, width: screenWidth, height: barSize)
         setupBottomAppBarFloatingButton()
-        setupBottomAppBarMenuButton()
+        setupBottomAppBarDeleteButton()
         setupBottomAppBarSearchButton()
         self.view.addSubview(bottomAppBar)
     }
@@ -76,7 +76,7 @@ class ViewController: MDCCollectionViewController {
         bottomAppBar.floatingButton.tintColor = UIColor.black
     }
 
-    fileprivate func setupBottomAppBarMenuButton() {
+    fileprivate func setupBottomAppBarDeleteButton() {
         let barMenuImage = UIImage(named: "ic_delete_forever")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         let barMenuItem = UIBarButtonItem(image: barMenuImage,
                                           style: .plain,
@@ -86,17 +86,27 @@ class ViewController: MDCCollectionViewController {
     }
 
     @objc func deleteAllRealmUserData(_ sender: UIButton) {
-        let alertController = MDCAlertController(title: "Remove Notes",
-                                                 message: "Are you sure you want to delete all notes?")
-        let deleteAction = MDCAlertAction(title: "Delete") {
-            (action) in self.removeAllRealmData()
+        var alertView: MDCAlertController!
+        if realmNotes.count > 0 {
+            alertView = mdAlertView(title: "Remove Notes",
+                                        message: "Are you sure you want to delete all notes?")
+            let deleteAction = MDCAlertAction(title: "Delete") {
+                (action) in self.removeAllRealmData()
+            }
+            alertView.addAction(deleteAction)
+        } else {
+            alertView = mdAlertView(title: "Remove Notes", message: "There are no notes to remove.")
         }
+        present(alertView, animated: true, completion: nil)
+    }
+
+    func mdAlertView(title: String, message: String) -> MDCAlertController {
+        let alertController = MDCAlertController(title: title, message: message)
         let cancelAction = MDCAlertAction(title: "Cancel") {
             (action) in self.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(cancelAction)
-        alertController.addAction(deleteAction)
-        present(alertController, animated: true, completion: nil)
+        return alertController
     }
 
     fileprivate func setupBottomAppBarSearchButton() {
@@ -125,12 +135,11 @@ class ViewController: MDCCollectionViewController {
         setupBottomSheetView()
     }
 
-    @objc func menuBottomAppBarAction(_ sender: UIButton!) {
-        print("BOTTOM BAR MENU")
-    }
-
     @objc func searchBottomAppBarAction(_ sender: UIButton!) {
         print("BOTTOM BAR SEARCH")
+        let alertView = mdAlertView(title: "In Development",
+                                    message: "Search feature is being developed.\nPlease be patient. Thank You!")
+        present(alertView, animated: true, completion: nil)
     }
 
 
@@ -188,8 +197,6 @@ class ViewController: MDCCollectionViewController {
         setupMDAppBar()
         setupBottomAppBar()
     }
-
-
 
 
     // MARK: UICollectionViewDataSource
